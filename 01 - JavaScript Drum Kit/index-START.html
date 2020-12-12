@@ -58,6 +58,25 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // when you click the key corresponding to the keyboard the code will:
+    // 1.Play a sound for that key
+    // 2.short animation, during it the code will:
+        // make the button bigger
+        // applie a yellow border to the button
+
+        //hint: this can be achive by telling the code to add a class to the element for the duration
+        // of the animation (for example: .playing {transform: scale(1.1)}; border-color: yellow; 
+        // box-shadow: 0 0 10px yellow; )
+        // Apply the "transition" property on the original element class (like .key{transition:all 0.07s})
+        // so that the element uses the other class (.playing) for 0.07s long.
+
+  
+  //1. select one key with an event.listener
+
+  const dk65 = document.querySelector(`[data-key*="65"]`);
+  dk65.addEventListener('click', () => {
+  alert("Hello World");
+  });
 
 </script>
 
