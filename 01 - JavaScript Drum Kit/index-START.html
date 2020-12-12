@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio id="A65" data-key="65" src="sounds/clap.wav"></audio>
   <audio data-key="83" src="sounds/hihat.wav"></audio>
   <audio data-key="68" src="sounds/kick.wav"></audio>
   <audio data-key="70" src="sounds/openhat.wav"></audio>
@@ -74,9 +74,13 @@
   //1. select one key with an event.listener
 
   const dk65 = document.querySelector(`[data-key*="65"]`);
-  dk65.addEventListener('click', () => {
-  alert("Hello World");
-  });
+
+  // 2. when the selected key is click, a sound is played
+   
+    dk65.addEventListener('click', function(e) {
+    document.getElementById("A65").play();
+    });
+
 
 </script>
 
