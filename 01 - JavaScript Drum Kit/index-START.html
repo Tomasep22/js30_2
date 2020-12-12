@@ -62,7 +62,7 @@
     // 1.Play a sound for that key
     // 2.short animation, during it the code will:
         // make the button bigger
-        // applie a yellow border to the button
+        // apply a yellow border to the button
 
         //hint: this can be achive by telling the code to add a class to the element for the duration
         // of the animation (for example: .playing {transform: scale(1.1)}; border-color: yellow; 
@@ -73,41 +73,93 @@
   
   document.addEventListener('keydown', sound);
 
+
+  const aKey = document.querySelector(`[data-key="65"]`);
+  const sKey = document.querySelector(`[data-key="83"]`);
+  const dKey = document.querySelector(`[data-key="68"]`);
+  const fKey = document.querySelector(`[data-key="70"]`);
+  const gKey = document.querySelector(`[data-key="71"]`);
+  const hKey = document.querySelector(`[data-key="72"]`);
+  const jKey = document.querySelector(`[data-key="74"]`);
+  const kKey = document.querySelector(`[data-key="75"]`);
+  const lKey = document.querySelector(`[data-key="76"]`);
+
+  // aKey.addEventListener("click", function (e) {console.log(e);})
+
   function sound(e) {
     switch (e.keyCode) {
       case 65:
+        aKey.classList.toggle("playing");
         document.getElementById("A65").play();
         break;
       case 83:
+        sKey.classList.toggle("playing");
         document.getElementById("S83").play();
         break;
       case 68:
+        dKey.classList.toggle("playing");
         document.getElementById("D68").play();
         break;
       case 70:
+        fKey.classList.toggle("playing");
         document.getElementById("F70").play();
         break;
       case 71:
+        gKey.classList.toggle("playing");
         document.getElementById("G71").play();
         break;
       case 72:
+        hKey.classList.toggle("playing");
         document.getElementById("H72").play();
         break;
       case 74:
+        jKey.classList.toggle("playing");
         document.getElementById("J74").play();
         break;
       case 75:
+        kKey.classList.toggle("playing");
         document.getElementById("K75").play();
         break;
       case 76:
+        lKey.classList.toggle("playing");
         document.getElementById("L76").play();
         break;
     }
   }
 
- 
+  document.addEventListener('keyup', trans);
 
-
+  function trans(e) {
+    switch (e.keyCode) {
+      case 65:
+        aKey.classList.remove("playing");
+        break;
+      case 83:
+        sKey.classList.remove("playing");
+        break;
+      case 68:
+        dKey.classList.remove("playing");
+        break;
+      case 70:
+        fKey.classList.remove("playing");
+        break;
+      case 71:
+        gKey.classList.remove("playing");
+        break;
+      case 72:
+        hKey.classList.remove("playing");
+        break;
+      case 74:
+        jKey.classList.remove("playing");
+        break;
+      case 75:
+        kKey.classList.remove("playing");
+        break;
+      case 76:
+        lKey.classList.remove("playing");
+        break;
+    }
+  }
 
 </script>
 
