@@ -70,11 +70,11 @@
         // Apply the "transition" property on the original element class (like .key{transition:all 0.07s})
         // so that the element uses the other class (.playing) for 0.07s long.
 
-  
-  document.addEventListener('keydown', sound);
+  ////*C!_1
+  document.addEventListener('keydown', sound); //*C!_2 // *C!_6
 
 
-  const aKey = document.querySelector(`[data-key="65"]`);
+  const aKey = document.querySelector(`[data-key="65"]`); //*C!_3 
   const sKey = document.querySelector(`[data-key="83"]`);
   const dKey = document.querySelector(`[data-key="68"]`);
   const fKey = document.querySelector(`[data-key="70"]`);
@@ -84,55 +84,64 @@
   const kKey = document.querySelector(`[data-key="75"]`);
   const lKey = document.querySelector(`[data-key="76"]`);
 
-  // aKey.addEventListener("click", function (e) {console.log(e);})
 
-  function sound(e) {
+  function sound(e) { //*C!_2
     switch (e.keyCode) {
       case 65:
-        aKey.classList.toggle("playing");
+        aKey.classList.toggle("playing");  // *C!_6
+        //*C!_4
+        document.getElementById("A65").currentTime = 0; // *C!_5
         document.getElementById("A65").play();
         break;
       case 83:
         sKey.classList.toggle("playing");
+        document.getElementById("S83").currentTime = 0;
         document.getElementById("S83").play();
         break;
       case 68:
         dKey.classList.toggle("playing");
+        document.getElementById("D68").currentTime = 0;
         document.getElementById("D68").play();
         break;
       case 70:
         fKey.classList.toggle("playing");
+        document.getElementById("F70").currentTime = 0;
         document.getElementById("F70").play();
         break;
       case 71:
         gKey.classList.toggle("playing");
+        document.getElementById("G71").currentTime = 0;
         document.getElementById("G71").play();
         break;
       case 72:
         hKey.classList.toggle("playing");
+        document.getElementById("H72").currentTime = 0;
         document.getElementById("H72").play();
         break;
       case 74:
         jKey.classList.toggle("playing");
+        document.getElementById("J74").currentTime = 0;
         document.getElementById("J74").play();
         break;
       case 75:
         kKey.classList.toggle("playing");
+        document.getElementById("K75").currentTime = 0;
         document.getElementById("K75").play();
         break;
       case 76:
         lKey.classList.toggle("playing");
+        document.getElementById("L76").currentTime = 0;
         document.getElementById("L76").play();
         break;
     }
   }
 
-  document.addEventListener('keyup', trans);
+  document.addEventListener('keyup', trans); // *C!_6
 
-  function trans(e) {
+  function trans(e) { // *C!_6
     switch (e.keyCode) {
       case 65:
-        aKey.classList.remove("playing");
+        aKey.classList.remove("playing"); // *C!_6
         break;
       case 83:
         sKey.classList.remove("playing");
@@ -160,6 +169,82 @@
         break;
     }
   }
+
+  // CORRECTIONS
+
+//*C! CLEANER WAY TO DO THE SAME WITH LESS CODE
+
+// 1. window instead of document
+
+//MY ANSWER                                                 //CORRECTION
+
+// document.addEventListener                                // window.addEventListener
+
+// document is the main object of the potentially visible   // Window is the main JavaScript object root,
+// (or better yet: rendered) document object model/DOM.     // aka the global object in a browser, also can be treated as the root of the document object model.
+
+//               MyCONCLUSION: window is better that document because it has a grater scoop.
+
+// 2. function(e) instead of creating sound()
+
+// document.addEventListener('keydown', sound);             // document.addEventListener('keydown', function(e)) {};
+
+//               MyCONCLUSION: Creating a named function is not necessary, using directrly function(e) is shorter.
+
+// 3-4. creating 1 element for all keys and 1 element for all audios
+//          3. keys
+// const aKey = document.querySelector(`[data-key="65"]`);  // const key = document.querySelector(`.key[data-key="${e.keycode}"]`);
+
+//               MyCONCLUSION: using a Template literals ${} allows us to create one element (key) for all the audios
+//                             instead of creating 1 element per key (10 elements).
+//                             like both the keys and the audios have the same data-* it is necessary to specify that this is for
+//                             the key elements like he does here: (`audio[data-*="${...}"]`);
+//                             also we dont need to create id‘s for each key like i did to refer to them.
+//          4. audio
+// document.getElementById("A65").play();                  // const audio = document.querySelector(`.audio[data-key="${e.keycode}"]`);
+//                
+//               MyCONCLUSION: similar to 3, i also added id‘s to the audios and refered to them individually instead of using
+//                            a method like the one he uses.
+
+// 4.5           He adds a if(!audio) return; to stop the function if there is no audio element associated with the pressed key
+
+// 5.  add a rewind option
+// document.getElementById("A65").play();                 // audio.currentTime = 0;
+//                                                        // audio.play();
+
+//               MyCONCLUSION: my code doesnt allow the user to press the same key over and over. The code does not run until the
+//                             audio reaches the end. audio.currentTime = 0; solves this because is starts again the audio every
+//                             the key is pressed again.
+//                              
+
+// 6.   how to make the transition key --- key playing --- key
+
+// document.addEventListener('keydown', sound);                  //  document.addEventListener('keydown', function(e)) {...};
+// document.addEventListener('keyup', trans);                    // adds to this f() a Key.classList.add("playing");
+
+//                                                              // he wants the code to listen to all the keys, !!! we cant use addEventListener because that only works individually 
+//                                                              // so:
+//                                                              // const keys = document.querrySelectorAll(".key") // this returns an array with all elements with a key class 
+//                                                              // keys.forEach(key => key.addEventListener("transitionend", removeTransition)) // when any key returns the event "transitioned",
+//                                                              //                                                                              // function() removeTransition runs
+// function sound(e) {                                                                    
+//    switch (e.keyCode) {                                      //function removeTransition(e) {                            // writes the new f()
+//      case 65:                                                // if (e.propertyName !== "transform") return; // this ends the function if in the callback there is no transform property, we know by console.log(e) that there is always a transform in the transition. He choosed transform becaus it is the longest.
+//        aKey.classList.toggle("playing");                     // this.classList.remove(playing) // this. refesrs to what e was called against. if we look we can see that this e comes form key.addEventListener(...). so e (addEvenlistener) was called against key. so this. refers to the individual key that is pressed.
+//        break;                                                //                                // so it removes the class playing of the pressed key
+//   }
+// }
+
+//  function trans(e) {                                  
+//    switch (e.keyCode) {
+//      case 65:
+//        aKey.classList.remove("playing");
+//        break;
+//    }
+//  }
+
+
+
 
 </script>
 
