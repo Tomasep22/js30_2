@@ -54,6 +54,18 @@ body {
   max-width: 50px;
 }
 
+.fullScreen {
+  text-align: center;
+  max-width: 50px;
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  line-height: 1;
+  color: white;
+}
+
 .player__button:focus {
   border-color: #ffc600;
 }
@@ -160,3 +172,4 @@ input[type=range]::-moz-range-thumb {
   background: #ffc600;
   cursor: pointer;
 }
+
